@@ -1,12 +1,12 @@
 <template>
-  <el-row class="bg-indigo-500 min-h-screen">
-    <el-col :lg="16" :md="12" class="flex items-center justify-center " style="display:flex;">
+  <el-row class="login-wrap">
+    <el-col :lg="16" :md="12" class="login-left" style="display:flex;">
       <div>
         <div class="text-light-50 font-bold text-5xl mb-4">欢迎光临</div>
         <div class="text-gray-200">山东菏泽曹县牛逼666山东菏泽曹县牛逼666山东菏泽曹县牛逼666</div>
       </div>
     </el-col>
-    <el-col :lg="8" :md="12" class="bg-light-50 flex items-center justify-center flex-col" style="display:flex;">
+    <el-col :lg="8" :md="12" class="login-right" style="display:flex;">
       <h2 class="font-bold text-3xl mt-6">欢迎回来</h2>
       <div class="flex items-center justify-center space-x-2 mt-5 mb-8">
         <span class="h-px w-16 bg-gray-200"></span>
@@ -54,5 +54,13 @@ const onSubmit = () =>{
 </script>
 
 <style lang="scss" scoped>
-
+.login-wrap{
+  @apply bg-indigo-500 min-h-screen;
+  .login-left{
+    @apply flex items-center justify-center; 
+  }
+  .login-right{
+    @apply bg-light-50 flex items-center justify-center flex-col; 
+  }
+}
 </style>
