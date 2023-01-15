@@ -41,7 +41,7 @@
 
 </template>
 
-<script setup>
+<script setup name="login">
 const form = reactive({
   userName: undefined,
   password: undefined
