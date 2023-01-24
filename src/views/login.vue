@@ -90,6 +90,9 @@ const onSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
+.n-form-item {
+  // margin-top: 20px;
+}
 
 .login-wrap {
   @apply bg-indigo-500 min-h-screen;
