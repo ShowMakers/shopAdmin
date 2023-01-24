@@ -1,66 +1,108 @@
 <template>
-  <el-row class="login-wrap">
-    <el-col :lg="16" :md="12" class="login-left" style="display:flex;">
-      <div>
-        <div class="text-light-50 font-bold text-5xl mb-4">欢迎光临</div>
-        <div class="text-gray-200">山东菏泽曹县牛逼666山东菏泽曹县牛逼666山东菏泽曹县牛逼666</div>
+  <n-grid class="login-wrap" cols="s:1 m:3 l:4 " item-responsive responsive="screen">
+    <n-gi span=" l:3 m:2 s:1" class="login-left">
+      <div class="px-10 sm:px-30">
+        <div class="sm:text-4xl xl:text-5xl font-bold text-light-50 leading-tight mb-6">欢迎光临</div>
+        <div class="sm:text-sm xl:text-md text-gray-200 font-normal">山东菏泽曹县牛逼666山东菏泽曹县牛逼666山东菏泽曹县牛逼666</div>
       </div>
-    </el-col>
-    <el-col :lg="8" :md="12" class="login-right" style="display:flex;">
+    </n-gi>
+    <n-gi span=" l:1 m:1 s:1" class="login-right">
       <h2 class="font-bold text-3xl mt-6">欢迎回来</h2>
       <div class="flex items-center justify-center space-x-2 mt-5 mb-8">
         <span class="h-px w-16 bg-gray-200"></span>
         <span class="text-gray-300 font-normal">账号密码登录</span>
         <span class="h-px w-16 bg-gray-200"></span>
       </div>
-      <el-form :model="form" class="w-[250px]">
-        <el-form-item>
-          <el-input v-model="form.userName" placeholder="请输入用户名">
+      <n-form ref="loginRef" :model="loginForm" :rules="loginRules" :show-label="false">
+        <n-form-item path="username">
+          <n-input v-model:value="loginForm.username" placeholder="请输入用户名">
             <template #prefix>
-              <el-icon class="el-input__icon">
-                <User />
-              </el-icon>
+              <n-icon size="18" color="#808695">
+                <PersonOutline />
+              </n-icon>
             </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input type="password" show-password v-model="form.password" placeholder="请输入密码">
+          </n-input>
+        </n-form-item>
+        <n-form-item path="password">
+          <n-input type="password" showPasswordOn="click" v-model:value="loginForm.password" placeholder="请输入密码">
             <template #prefix>
-              <el-icon class="el-input__icon">
-                <Lock />
-              </el-icon>
+              <n-icon size="18" color="#808695">
+                <LockClosedOutline />
+              </n-icon>
             </template>
-          </el-input>
-        </el-form-item>
+          </n-input>
+        </n-form-item>
         <el-form-item>
-          <el-button class="w-[250px]" @click="onSubmit()" round color="#6172f5">登录</el-button>
+          <n-button class="w-[250px]" :loading="loading" @click="onSubmit()" round color="#6172f5">登录</n-button>
+          <n-button class="w-[250px]" :loading="loading">giao啊</n-button>
         </el-form-item>
-      </el-form>
-    </el-col>
-  </el-row>
+      </n-form>
+    </n-gi>
+  </n-grid>
 
 </template>
 
-<script setup name="login">
-const form = reactive({
-  userName: undefined,
+<script setup >
+import { login } from "@/api/login";
+import { useMessage, useDialog, useNotification,useLoadingBar  } from 'naive-ui';
+import { PersonOutline, LockClosedOutline, } from '@vicons/ionicons5';
+import useLoading from '@/hooks/useLoading';
+
+const message = useMessage();
+//挂载
+window.$dialog = useDialog();
+window.$message = useMessage();
+window.$loadingBar  = useLoadingBar();
+window.$notification = useNotification();
+const bar = useLoadingBar();
+const { loading, setLoading } = useLoading();
+
+const loginForm = reactive({
+  username: undefined,
   password: undefined
 });
 
-//登录
-const onSubmit = () =>{
-  console.log(1123);
+const loginRules = {
+  username: { required: true, trigger: "blur", message: "请输入您的账号" },
+  password: { required: true, trigger: "blur", message: "请输入您的密码" },
+};
+
+const loginRef = ref(null);
+
+//登录按钮
+const onSubmit = () => {
+  loginRef.value?.validate(async (errors) => {
+    if (loading.value) return;
+    if (!errors) {
+      setLoading(true);
+      bar.start();
+      try {
+        await login(loginForm);
+        message.success("登录成功");
+      } catch (error) {
+      } finally {
+        setLoading(false);
+        bar.finish();
+      }
+    }
+  });
 }
 </script>
 
 <style lang="scss" scoped>
-.login-wrap{
+.n-form-item {
+  // margin-top: 20px;
+}
+
+.login-wrap {
   @apply bg-indigo-500 min-h-screen;
-  .login-left{
-    @apply flex items-center justify-center; 
+
+  .login-left {
+    @apply flex items-center justify-center;
   }
-  .login-right{
-    @apply bg-light-50 flex items-center justify-center flex-col; 
+
+  .login-right {
+    @apply bg-light-50 flex items-center justify-center flex-col;
   }
 }
 </style>
