@@ -34,7 +34,6 @@
         </n-form-item>
         <el-form-item>
           <n-button class="w-[250px]" :loading="loading" @click="onSubmit()" round color="#6172f5">登录</n-button>
-          <n-button class="w-[250px]" :loading="loading">giao啊</n-button>
         </el-form-item>
       </n-form>
     </n-gi>
@@ -54,7 +53,6 @@ window.$dialog = useDialog();
 window.$message = useMessage();
 window.$loadingBar  = useLoadingBar();
 window.$notification = useNotification();
-const bar = useLoadingBar();
 const { loading, setLoading } = useLoading();
 
 const loginForm = reactive({
@@ -75,14 +73,12 @@ const onSubmit = () => {
     if (loading.value) return;
     if (!errors) {
       setLoading(true);
-      bar.start();
       try {
         await login(loginForm);
         message.success("登录成功");
       } catch (error) {
       } finally {
         setLoading(false);
-        bar.finish();
       }
     }
   });
