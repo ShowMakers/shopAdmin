@@ -32,9 +32,9 @@
             </template>
           </n-input>
         </n-form-item>
-        <el-form-item>
+        <n-form-item>
           <n-button class="w-[250px]" :loading="loading" @click="onSubmit()" round color="#6172f5">登录</n-button>
-        </el-form-item>
+        </n-form-item>
       </n-form>
     </n-gi>
   </n-grid>
