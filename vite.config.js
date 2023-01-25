@@ -4,7 +4,7 @@ import WindiCSS from 'vite-plugin-windicss';
 import path from "path";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver,NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 // https://vitejs.dev/config/
@@ -21,7 +21,7 @@ export default defineConfig({
     WindiCSS(),
     VueSetupExtend(),
     AutoImport ({
-      imports: ['vue', 'vue-router', 'vue-i18n', '@vueuse/head', '@vueuse/core',{
+      imports: ['vue', 'vue-router', 'vue-i18n', '@vueuse/head',{
         'naive-ui': [
           'useDialog',
           'useMessage',
@@ -32,7 +32,7 @@ export default defineConfig({
       dts: "src/auto-import.d.ts" // 生成 `auto-import.d.ts` 全局声明
     }),
     Components({
-      resolvers: [ElementPlusResolver(),NaiveUiResolver()]
+      resolvers: [NaiveUiResolver()]
     })
   ],
   server: {
@@ -44,4 +44,11 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      external: [
+          "element-plus"
+      ]
+    }
+  }
 })
