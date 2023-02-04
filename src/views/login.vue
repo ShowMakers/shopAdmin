@@ -59,7 +59,7 @@ const loginForm = reactive({
   username: undefined,
   password: undefined
 });
-
+console.log("这是",import.meta.env.MODE=="development"?"开发":"线上","环境");
 const loginRules = {
   username: { required: true, trigger: "blur", message: "请输入您的账号" },
   password: { required: true, trigger: "blur", message: "请输入您的密码" },

@@ -7,6 +7,7 @@ import Components from "unplugin-vue-components/vite";
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
+import viteCompression from 'vite-plugin-compression';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command })=>{
   const env = loadEnv(mode, process.cwd());
@@ -24,6 +25,7 @@ export default defineConfig(({ mode, command })=>{
     vueJsx(),
     WindiCSS(),
     VueSetupExtend(),
+    viteCompression(),
     AutoImport ({
       imports: ['vue', 'vue-router', 'vue-i18n', '@vueuse/head',{
         'naive-ui': [
@@ -43,7 +45,7 @@ export default defineConfig(({ mode, command })=>{
     host:"0.0.0.0",
     proxy: {
       '/api': {
-        target: env.VITE_APP_BASE_API_URL,
+        target: 'http://ceshi13.dishait.cn',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
