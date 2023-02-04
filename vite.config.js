@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig,loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import WindiCSS from 'vite-plugin-windicss';
 import path from "path";
@@ -8,7 +8,11 @@ import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode, command })=>{
+  const env = loadEnv(mode, process.cwd());
+  const { VITE_APP_ENV } = env;
+  console.log("这是",VITE_APP_ENV=="development"?"开发":"线上","环境");
+ return {
   resolve: {
     alias: {
       // 设置别名
@@ -39,17 +43,11 @@ export default defineConfig({
     host:"0.0.0.0",
     proxy: {
       '/api': {
-        target: 'http://ceshi13.dishait.cn',
+        target: env.VITE_APP_BASE_API_URL,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
-  build: {
-    rollupOptions: {
-      external: [
-          "element-plus"
-      ]
-    }
-  }
+ }
 })
