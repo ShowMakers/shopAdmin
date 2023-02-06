@@ -1,10 +1,10 @@
 import axios from "axios";
-
+import { useCookies } from '@vueuse/integrations/useCookies';
 // import store from "@/store";
 import { getToken, removeToken } from "@/utils/auth";
 // import errorCode from "@/utils/errorCode";
-let downloadLoadingInstance;
 
+const cookies = useCookies();
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 // 创建axios实例
 const service = axios.create({

@@ -6,7 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   //首页
   {
-    path: "/",
+    path: "/login",
     component: () => import("@/views/login.vue"),
   },
   //404
@@ -15,8 +15,8 @@ const routes = [
     component: () => import("@/views/404/index.vue"),
   },
   {
-    path: "/login",
-    component: () => import("@/views/login.vue"),
+    path: "/",
+    component: () => import("@/views/index.vue"),
   },
 ];
 const router = createRouter({

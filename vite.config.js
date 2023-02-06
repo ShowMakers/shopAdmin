@@ -1,13 +1,17 @@
-import { defineConfig, loadEnv } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import WindiCSS from 'vite-plugin-windicss';
 import path from "path";
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import vue from '@vitejs/plugin-vue';
+import Icons from 'unplugin-icons/vite';
+import WindiCSS from 'vite-plugin-windicss';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import VueSetupExtend from 'vite-plugin-vue-setup-extend';
+import { defineConfig, loadEnv } from 'vite';
+import AutoImport from "unplugin-auto-import/vite";
+import IconsResolver from 'unplugin-icons/resolver';
+import Components from "unplugin-vue-components/vite";
 import viteCompression from 'vite-plugin-compression';
+import VueSetupExtend from 'vite-plugin-vue-setup-extend';
+import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import { VueUseComponentsResolver } from 'unplugin-vue-components/resolvers';
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd());
@@ -33,7 +37,7 @@ export default defineConfig(({ mode, command }) => {
         ext: '.gz',
       }),
       AutoImport({
-        imports: ['vue', 'vue-router', 'vue-i18n', '@vueuse/head', {
+        imports: ['vue', 'vue-router', 'vue-i18n',"pinia", '@vueuse/core', {
           'naive-ui': [
             'useDialog',
             'useMessage',
@@ -44,8 +48,12 @@ export default defineConfig(({ mode, command }) => {
         dts: "src/auto-import.d.ts" // 生成 `auto-import.d.ts` 全局声明
       }),
       Components({
-        resolvers: [NaiveUiResolver()]
-      })
+        resolvers: [NaiveUiResolver(),IconsResolver(),VueUseComponentsResolver()]
+      }),
+      Icons({
+        compiler: 'vue3',
+        autoInstall: true,
+      }),
     ],
     server: {
       host: "0.0.0.0",
@@ -59,30 +67,38 @@ export default defineConfig(({ mode, command }) => {
     },
     build: {
       minify: 'terser',
+      brotliSize: false,
+      // 消除打包大小超过500kb警告
+      chunkSizeWarningLimit: 2000,
+      // 在生产环境移除console.log
       terserOptions: {
         compress: {
           //生产环境时移除console
-          drop_console: true,
+          drop_console: false,
+          pure_funcs: ['console.log', 'console.info'],
           drop_debugger: true,
         },
       },
-      // 取消计算文件大小，加快打包速度
-      reportCompressedSize: true,
-      sourcemap: false,
-      // assetsDir: 'static/img',
+      assetsDir: 'static/assets',
+      // 静态资源打包到dist下的不同目录
       rollupOptions: {
         output: {
-          chunkFileNames: 'js/[name]-[hash].js',
-          entryFileNames: 'js/[name]-[hash].js',
-          assetFileNames: '[ext]/[name]-[hash].[ext]',
-          manualChunks(id) { //静态资源分拆打包
-            if (id.includes('naive-ui')) {
-                return;
-            }
-            if (id.includes('node_modules')) {
-              return id.toString().split('node_modules/')[1].split('/')[0].toString();
-            }
-          }
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+        },
+        manualChunks: {
+          vue: ['vue', 'vue-router', 'pinia', '@vueuse/core', 'vue-i18n'],
+        },
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+          @import "@/assets/styles/variables.scss";
+        `,
+          javascriptEnabled: true,
         },
       },
     },

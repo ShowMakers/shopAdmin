@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <el-result
-        icon="error"
-        title="404"
-        sub-title="您要找的页面丢失了"
+    <n-result
+        status="404"
+        title="您要找的页面丢失了"
+        description="在它变成错误以前一般不会有人管它"
       >
-        <template #extra>
-          <el-button type="primary" @click="$router.push('/')">返回首页</el-button>
+        <template #footer>
+          <a-button  @click="$router.push('/')">返回首页</a-button>
         </template>
-      </el-result>
-  </div>
+      </n-result>
 </template>
 
 <script setup>

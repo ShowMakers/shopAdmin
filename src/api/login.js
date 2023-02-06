@@ -11,3 +11,15 @@ export function login(data) {
     data: data
   })
 }
+
+//退出
+export function logout(data) {
+  return request({
+    url: '/admin/login',
+    headers: {
+      isToken: false
+    },
+    method: 'post',
+    data: data
+  })
+}
