@@ -86,9 +86,9 @@ export default defineConfig(({ mode, command }) => {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
-        },
-        manualChunks: {
-          vue: ['vue', 'vue-router', 'pinia', '@vueuse/core', 'vue-i18n'],
+          manualChunks: {
+            vue: ['vue', 'vue-router', 'pinia', '@vueuse/core', 'vue-i18n'],
+          },
         },
       },
     },
