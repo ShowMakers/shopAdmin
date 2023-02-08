@@ -5,6 +5,7 @@
       <n-dialog-provider>
         <n-notification-provider>
           <n-message-provider>
+            <useMessageComponent />
             <router-view />
           </n-message-provider>
         </n-notification-provider>
@@ -14,7 +15,9 @@
 </template>
 
 <script setup>
-import { lightTheme, zhCN, dateZhCN } from 'naive-ui'
+import { lightTheme, zhCN, dateZhCN } from 'naive-ui';
+import useMessageComponent from '@/components/useMessageComponent.vue' 
+
 </script>
 
 <style scoped>

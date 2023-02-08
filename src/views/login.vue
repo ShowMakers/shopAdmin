@@ -53,10 +53,10 @@ const router = useRouter();
 const store = useUserStore();
 const message = useMessage();
 //挂载
-window.$dialog = useDialog();
-window.$message = useMessage();
-window.$loadingBar = useLoadingBar();
-window.$notification = useNotification();
+// window.$dialog = useDialog();
+// window.$message = useMessage();
+// window.$loadingBar = useLoadingBar();
+// window.$notification = useNotification();
 const { loading, setLoading } = useLoading();
 
 const loginForm = reactive({
@@ -82,7 +82,6 @@ const onSubmit = () => {
         message.success("登录成功");
         router.push("/");
       } catch (error) {
-        message.error("登录失败");
         throw error;
       } finally {
         setLoading(false);
