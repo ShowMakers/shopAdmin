@@ -18,7 +18,7 @@ const useUserStore = defineStore('user',{
         const { data } = await login(userInfo);
         setToken(data.token);
         this.token = data.token;
-        this.GetInfo();
+        // this.GetInfo();
       } catch (error) {
         removeToken();
         throw error;
@@ -35,7 +35,7 @@ const useUserStore = defineStore('user',{
     },
     // 退出系统
     async LogOut() {
-      await logout(state.token);
+      await logout();
       this.token = null;
       this.roles = null;
       this.permissions = null;

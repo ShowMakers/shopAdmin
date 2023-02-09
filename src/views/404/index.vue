@@ -5,7 +5,7 @@
         description="在它变成错误以前一般不会有人管它"
       >
         <template #footer>
-          <a-button  @click="$router.push('/')">返回首页</a-button>
+          <n-button  @click="$router.push('/')">返回首页</n-button>
         </template>
       </n-result>
 </template>

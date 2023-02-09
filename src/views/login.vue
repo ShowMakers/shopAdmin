@@ -45,18 +45,13 @@
 import { useUserStore } from '@/store';
 import useLoading from '@/hooks/useLoading';
 import { PersonOutline, LockClosedOutline, } from '@vicons/ionicons5';
-import { useMessage, useDialog, useNotification, useLoadingBar } from 'naive-ui';
+import { useMessage } from 'naive-ui';
 
 console.log("这是", import.meta.env.MODE == "development" ? "开发" : "线上", "环境");
 
 const router = useRouter();
 const store = useUserStore();
 const message = useMessage();
-//挂载
-// window.$dialog = useDialog();
-// window.$message = useMessage();
-// window.$loadingBar = useLoadingBar();
-// window.$notification = useNotification();
 const { loading, setLoading } = useLoading();
 
 const loginForm = reactive({

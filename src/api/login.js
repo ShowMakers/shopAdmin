@@ -13,13 +13,9 @@ export function login(data) {
 }
 
 //退出
-export function logout(data) {
+export function logout() {
   return request({
-    url: '/admin/login',
-    headers: {
-      isToken: false
-    },
+    url: '/admin/logout',
     method: 'post',
-    data: data
   })
 }

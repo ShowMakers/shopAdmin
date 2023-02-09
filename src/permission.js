@@ -1,5 +1,5 @@
 import router from "./router";
-import store from "./store";
+import { useUserStore } from '@/store';
 import NProgress from "nprogress";
 import "@/assets/styles/nprogress.scss";
 import { getToken } from "@/utils/auth";
@@ -12,6 +12,9 @@ const whiteList = [];
 router.beforeEach((to, from, next) => {
   NProgress.start();
   const token = getToken();
+  const userStore = useUserStore();
+  const title = (to.meta.title ? to.meta.title:"")+"-后台管理系统";
+  document.title = title;
   if (!token && to.path!="/login") {
      // 没有token
      if (whiteList.indexOf(to.path) !== -1) {
@@ -23,8 +26,15 @@ router.beforeEach((to, from, next) => {
       next({path:"/login"}); 
       NProgress.done();
     }
+  }else if(token && to.path == "/login"){
+    window.$message.error("请勿重新登录");
+    next({path:from.path ? from.path : "/"});
+  }else if(token){
+     userStore.GetInfo();
+  }else{
+    next();
   }
-  next();
+  
 });
 
 router.afterEach(() => {
