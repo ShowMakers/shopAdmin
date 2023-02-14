@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { login, logout } from '@/api/login';
 import { getUserInfo } from '@/api/manager';
 import { getToken, setToken, removeToken } from '@/utils/auth';
-const useUserStore = defineStore('user',{
+export const useUserStore = defineStore('user',{
   state: () => {
     return {
       token:getToken(),
@@ -18,7 +18,7 @@ const useUserStore = defineStore('user',{
         const { data } = await login(userInfo);
         setToken(data.token);
         this.token = data.token;
-        // this.GetInfo();
+        this.GetInfo();
       } catch (error) {
         removeToken();
         throw error;
@@ -44,4 +44,4 @@ const useUserStore = defineStore('user',{
   }
 });
 
-export default useUserStore;
+// export default useUserStore;

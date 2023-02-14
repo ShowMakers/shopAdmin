@@ -31,10 +31,8 @@ router.beforeEach((to, from, next) => {
     next({path:from.path ? from.path : "/"});
   }else if(token){
      userStore.GetInfo();
-  }else{
-    next();
   }
-  
+  next();
 });
 
 router.afterEach(() => {
