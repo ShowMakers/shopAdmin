@@ -36,9 +36,7 @@ export const useUserStore = defineStore('user',{
     // 退出系统
     async LogOut() {
       await logout();
-      this.token = null;
-      this.roles = null;
-      this.permissions = null;
+      this.userInfo = {};
       removeToken();
     },
   }

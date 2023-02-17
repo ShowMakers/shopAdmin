@@ -7,7 +7,6 @@ import router from "./router";
 import { createApp } from 'vue';
 import "@/assets/styles/index.scss"; // global css
 import { setupNaive } from '@/utils/NaiveUIComponents';
-import 'uno.css';
   const app = createApp(App)
   // 注册全局常用的 naive-ui 组件
   setupNaive(app);

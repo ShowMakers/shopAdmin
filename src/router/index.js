@@ -1,10 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-
-
+import Layout from "@/layout/index.vue";
 const routes = [
   //首页
+  {
+    path: "/",
+    component: Layout,
+    children:[
+      {
+        path: "/",
+        component: () => import("@/views/index.vue"),
+        meta:{
+          title:"首页",
+          icon: 'mdi:home',
+        }
+      }
+    ],
+  },
+  //登录
   {
     path: "/login",
     component: () => import("@/views/login.vue"),
@@ -18,13 +32,6 @@ const routes = [
     component: () => import("@/views/404/index.vue"),
     meta:{
       title:"404"
-    }
-  },
-  {
-    path: "/",
-    component: () => import("@/views/index.vue"),
-    meta:{
-      title:"首页"
     }
   },
 ];

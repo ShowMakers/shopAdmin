@@ -1,5 +1,4 @@
 import path from "path";
-import Unocss from 'unocss/vite';
 import vue from '@vitejs/plugin-vue';
 import Icons from 'unplugin-icons/vite';
 import WindiCSS from 'vite-plugin-windicss';
@@ -10,7 +9,6 @@ import IconsResolver from 'unplugin-icons/resolver';
 import Components from "unplugin-vue-components/vite";
 import viteCompression from 'vite-plugin-compression';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
-import transformerDirective from "@unocss/transformer-directives";
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import { VueUseComponentsResolver } from 'unplugin-vue-components/resolvers';
 
@@ -28,9 +26,6 @@ export default defineConfig(({ mode, command }) => {
     },
     plugins: [
       vue(),
-      Unocss({
-        transformers: [transformerDirective()],
-      }),
       vueJsx(),
       WindiCSS(),
       VueSetupExtend(),
@@ -46,7 +41,11 @@ export default defineConfig(({ mode, command }) => {
         dts: "src/auto-import.d.ts" // 生成 `auto-import.d.ts` 全局声明
       }),
       Components({
-        resolvers: [NaiveUiResolver(),IconsResolver(),VueUseComponentsResolver()]
+        resolvers: [
+          NaiveUiResolver(),
+          IconsResolver({componentPrefix: 'icon' }),
+          VueUseComponentsResolver()
+        ]
       }),
       Icons({
         compiler: 'vue3',

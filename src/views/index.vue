@@ -1,7 +1,7 @@
 <template>
     <div>
       后台首页
-    {{ store.userInfo }}
+    <!-- {{ store.userInfo }} -->
     </div>
 </template>
 
