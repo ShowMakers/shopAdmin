@@ -16,7 +16,7 @@ const service = axios.create({
 // axios 全局拦截
 const pending = [];
 const CancelToken = axios.CancelToken;
-// const source = CancelToken.source();
+
 const removePending = config => {
   for (const p in pending) {
     if (pending[p].u === config.url + '&' + config.method) {

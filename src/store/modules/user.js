@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { login, logout } from '@/api/login';
-import { getUserInfo } from '@/api/manager';
+import { getUserInfo,changePassword } from '@/api/manager';
 import { getToken, setToken, removeToken } from '@/utils/auth';
 export const useUserStore = defineStore('user',{
   state: () => {
@@ -33,11 +33,21 @@ export const useUserStore = defineStore('user',{
         throw error;
       }
     },
+    //修改密码
+    async changePassword(info) {
+      try {
+        await changePassword(info);
+      } catch (error) {
+        throw error;
+      }
+    },
     // 退出系统
     async LogOut() {
+      removeToken();
       await logout();
       this.userInfo = {};
-      removeToken();
+      this.roles=[];
+      this.permissions=[];
     },
   }
 });

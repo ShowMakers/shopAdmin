@@ -3,7 +3,8 @@
 
 <script setup>
 import { useMessage, useDialog, useNotification, useLoadingBar } from 'naive-ui';
-window.$dialog = useDialog();
+import { setupDialog } from '@/utils/naiveTools'
+window.$dialog = setupDialog(useDialog());
 window.$message = useMessage();
 window.$loadingBar = useLoadingBar();
 window.$notification = useNotification();

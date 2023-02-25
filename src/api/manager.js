@@ -8,3 +8,11 @@ export function getUserInfo(data) {
     data: data
   })
 }
+
+//修改密码
+export function changePassword() {
+  return request({
+    url: '/admin/updatepassword',
+    method: 'post',
+  })
+}
