@@ -5,14 +5,15 @@ export function getUserInfo(data) {
   return request({
     url: '/admin/getinfo',
     method: 'post',
-    data: data
+    data
   })
 }
 
 //修改密码
-export function changePassword() {
+export function changePassword(data) {
   return request({
     url: '/admin/updatepassword',
     method: 'post',
+    data
   })
 }

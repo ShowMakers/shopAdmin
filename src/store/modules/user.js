@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user',{
         const { data } = await login(userInfo);
         setToken(data.token);
         this.token = data.token;
-        this.GetInfo();
+        // this.GetInfo();
       } catch (error) {
         removeToken();
         throw error;
@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user',{
       }
     },
     //修改密码
-    async changePassword(info) {
+    async UpdatePassword(info) {
       try {
         await changePassword(info);
       } catch (error) {

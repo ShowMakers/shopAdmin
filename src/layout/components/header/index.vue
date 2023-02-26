@@ -33,13 +33,16 @@
       <n-drawer-content title="修改密码">
         <n-form ref="passwordRef" :model="passwordForm" :rules="passwordRules" label-placement="left"  :label-width="80">
         <n-form-item path="old" label="旧密码">
-          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.old" placeholder="请输入密码" />
+          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.oldpassword" placeholder="请输入密码" />
         </n-form-item>
          <n-form-item path="new" label="新密码">
-          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.new" placeholder="请输入密码" />
+          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.password" placeholder="请输入密码" />
         </n-form-item>
         <n-form-item path="confirm" label="确认密码">
-          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.confirm" placeholder="请输入密码" />
+          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.repassword" placeholder="请输入密码" />
+        </n-form-item>
+        <n-form-item >
+          <n-button type="primary" @click="handleSubmit">提交</n-button>
         </n-form-item>
       </n-form>
       </n-drawer-content>
@@ -117,14 +120,24 @@ const toggleDark = () => {
 
 const passwordRef = ref(null);
 const passwordForm = reactive({
-  new: undefined,
-  old:undefined,
-  confirm:undefined
+  oldpassword: undefined,
+  password:undefined,
+  repassword:undefined
 });
 const passwordRules = {
-  new: { required: true, trigger: "blur", message: "请输入您的密码" },
-  old: { required: true, trigger: "blur", message: "请输入您的密码" },
-  confirm: { required: true, trigger: "blur", message: "请输入您的密码" },
+  oldpassword: { required: true, trigger: "blur", message: "旧密码不能为空" },
+  password: { required: true, trigger: "blur", message: "新密码不能为空" },
+  repassword: { required: true, trigger: "blur", message: "确认密码不能为空" },
+};
+
+const handleSubmit = () => {
+  passwordRef.value.validate().then(() => {
+    userStore.UpdatePassword(passwordForm).then(() => {
+      $message.success("修改成功");
+      active.value = false;
+      userStore.LogOut();
+    });
+  });
 };
 </script>
 

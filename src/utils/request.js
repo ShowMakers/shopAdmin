@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useCookies } from '@vueuse/integrations/useCookies';
-// import store from "@/store";
+import { useUserStore } from '@/store';
 import { getToken, removeToken } from "@/utils/auth";
 // import errorCode from "@/utils/errorCode";
 
 const cookies = useCookies();
+
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 // 创建axios实例
 const service = axios.create({
@@ -147,11 +148,14 @@ service.interceptors.response.use(
     }
   },
   (err) => {
-    if (err.response.status === 400) {
-      window.$message.error(
-        err.response.data.msg
-      )
+    console.log(err,"err");
+    const userStore = useUserStore();
+    if(err.response?.data.msg=='非法token，请先登录！'){
+      //退出登录
+      userStore.LogOut();
+      location.reload();
     } else{
+      console.log("鬼");
       let { message } = err;
       if (message == "Network Error") {
         message = "后端接口连接异常";
