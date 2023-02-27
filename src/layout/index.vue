@@ -1,5 +1,5 @@
 <template>
-  <n-layout has-sider>
+  <n-layout has-sider class="h-screen w-screen">
     <n-layout-sider
       bordered
       collapse-mode="width"
