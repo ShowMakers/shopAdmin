@@ -16,7 +16,7 @@
       {{ 'VUE ADMIN' }}
     </h2>
   </router-link>
-  <n-menu class="shadow-md fixed  left-0 overflow-auto" :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" />
+  <n-menu class="side-menu" :indent="18" accordion :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" />
 </template>
 
 <script setup>

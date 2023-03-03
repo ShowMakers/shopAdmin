@@ -11,7 +11,7 @@
       <SideBar />
     </n-layout-sider>
 
-    <article style="width:100%">
+    <article style="width:100%" class="flex-1 flex-col overflow-hidden">
       <header>
         <AppHeader />
       </header>
