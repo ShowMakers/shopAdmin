@@ -17,3 +17,11 @@ export function changePassword(data) {
     data
   })
 }
+
+//获取管理员信息和权限菜单
+export function getMenu() {
+  return request({
+    url: '/admin/getinfo',
+    method: 'post',
+  })
+}
