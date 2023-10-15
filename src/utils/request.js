@@ -1,23 +1,23 @@
 import axios from "axios";
-
-// import store from "@/store";
+import { useCookies } from '@vueuse/integrations/useCookies';
+import { useUserStore } from '@/store';
 import { getToken, removeToken } from "@/utils/auth";
 // import errorCode from "@/utils/errorCode";
-let downloadLoadingInstance;
+
+const cookies = useCookies();
 
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_APP_BASE_API,
   // 超时
   timeout: 10000,
 });
-
 // axios 全局拦截
 const pending = [];
 const CancelToken = axios.CancelToken;
-// const source = CancelToken.source();
+
 const removePending = config => {
   for (const p in pending) {
     if (pending[p].u === config.url + '&' + config.method) {
@@ -148,21 +148,25 @@ service.interceptors.response.use(
     }
   },
   (err) => {
-    if (err.response.status === 400) {
-      window.$message.error(
-        err.response.data.msg
-      )
+    console.log(err,"err");
+    const userStore = useUserStore();
+    if(err.response?.data.msg=='非法token，请先登录！'){
+      //退出登录
+      userStore.LogOut();
+      location.reload();
     } else{
-      let { message } = err;
+      console.log("鬼");
+      let { message,response } = err;
       if (message == "Network Error") {
         message = "后端接口连接异常";
       } else if (message.includes("timeout")) {
         message = "系统接口请求超时";
-      }else if (message.includes("Request failed with status code")) {
-        message = "系统接口" + message.substr(message.length - 3) + "异常";
       }
+      // else if (message.includes("Request failed with status code")) {
+      //   message = "系统接口" + message.substr(message.length - 3) + "异常";
+      // }
       window.$message.error(
-        message
+        response.data.msg || "未知错误，请联系管理员"
       )
     }
     return Promise.reject(err);

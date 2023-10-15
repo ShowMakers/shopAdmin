@@ -32,9 +32,9 @@
             </template>
           </n-input>
         </n-form-item>
-        <el-form-item>
+        <n-form-item>
           <n-button class="w-[250px]" :loading="loading" @click="onSubmit()" round color="#6172f5">登录</n-button>
-        </el-form-item>
+        </n-form-item>
       </n-form>
     </n-gi>
   </n-grid>
@@ -42,17 +42,16 @@
 </template>
 
 <script setup >
-import { login } from "@/api/login";
-import { useMessage, useDialog, useNotification,useLoadingBar  } from 'naive-ui';
-import { PersonOutline, LockClosedOutline, } from '@vicons/ionicons5';
+import { useUserStore } from '@/store';
 import useLoading from '@/hooks/useLoading';
+import { PersonOutline, LockClosedOutline, } from '@vicons/ionicons5';
+// import { useMessage } from 'naive-ui';
 
-const message = useMessage();
-//挂载
-window.$dialog = useDialog();
-window.$message = useMessage();
-window.$loadingBar  = useLoadingBar();
-window.$notification = useNotification();
+console.log("这是", import.meta.env.MODE == "development" ? "开发" : "线上", "环境");
+
+const router = useRouter();
+const store = useUserStore();
+// const message = useMessage();
 const { loading, setLoading } = useLoading();
 
 const loginForm = reactive({
@@ -74,9 +73,11 @@ const onSubmit = () => {
     if (!errors) {
       setLoading(true);
       try {
-        await login(loginForm);
-        message.success("登录成功");
+        await store.Login(loginForm);
+        $message.success("登录成功");
+        router.push('/');
       } catch (error) {
+        throw error;
       } finally {
         setLoading(false);
       }
@@ -86,6 +87,13 @@ const onSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
+.myclass {
+  /**
+    这里是全局定义的颜色，可直接使用
+    参考https://juejin.cn/post/7058201396113309703#heading-11
+  */
+  color: $theme-color;
+}
 .login-wrap {
   @apply bg-indigo-500 min-h-screen;
 

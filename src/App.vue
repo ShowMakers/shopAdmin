@@ -1,10 +1,11 @@
 <template>
-  <n-config-provider :theme="lightTheme" :locale="zhCN" :date-locale="dateZhCN"
+  <n-config-provider :theme="appStore.isDark ? darkTheme : lightTheme" :locale="zhCN" :date-locale="dateZhCN"
                      :theme-override="{ common: { primaryColor: '#409EFE' } }">
     <n-loading-bar-provider>
       <n-dialog-provider>
         <n-notification-provider>
           <n-message-provider>
+            <useMessageComponent />
             <router-view />
           </n-message-provider>
         </n-notification-provider>
@@ -14,7 +15,11 @@
 </template>
 
 <script setup>
-import { lightTheme, zhCN, dateZhCN } from 'naive-ui'
+import { lightTheme,darkTheme, zhCN, dateZhCN } from 'naive-ui';
+import useMessageComponent from '@/components/useMessageComponent.vue';
+import { useAppStore } from '@/store';
+
+const appStore = useAppStore()
 </script>
 
 <style scoped>
