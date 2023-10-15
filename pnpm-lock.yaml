@@ -8,6 +8,7 @@ specifiers:
   '@vitejs/plugin-vue-jsx': ^3.0.0
   '@vueuse/core': ^9.12.0
   '@vueuse/integrations': ^9.12.0
+  autofit.js: ^3.0.4
   axios: ^1.2.3
   js-cookie: ^3.0.1
   naive-ui: ^2.34.3
@@ -33,6 +34,7 @@ dependencies:
   '@vitejs/plugin-vue-jsx': 3.0.0_vite@4.0.4+vue@3.2.45
   '@vueuse/core': 9.12.0_vue@3.2.45
   '@vueuse/integrations': 9.12.0_fa63f22mfwkoudch65pdafepbm
+  autofit.js: 3.0.4
   axios: 1.2.4
   js-cookie: 3.0.1
   nprogress: 0.2.0
@@ -997,6 +999,10 @@ packages:
 
   /asynckit/0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+    dev: false
+
+  /autofit.js/3.0.4:
+    resolution: {integrity: sha512-QM4pq+V3Iao1RBNJJBSDhRrtWrq7ngjT5XWL1kOC0PjnyUqPlfoVNHI3yvp+iz0RMlCDoCNTVlfdXAKh+nV8Ag==}
     dev: false
 
   /axios/1.2.4:

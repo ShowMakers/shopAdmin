@@ -1,10 +1,10 @@
 <template>
   <router-view v-slot="{ Component, route }">
-    <!-- <transition name="fade"> -->
+    <transition name="fade">
       <KeepAlive :include="keepAliveRouteNames">
         <component :is="Component" v-if="appStore.reloadFlag" :key="appStore.aliveKeys[route.name] || route.fullPath" />
         </KeepAlive>
-    <!-- </transition> -->
+    </transition>
   </router-view>
 </template>
 
