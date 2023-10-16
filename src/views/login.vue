@@ -1,5 +1,5 @@
 <template>
-  <n-grid class="login-wrap" cols="s:1 m:3 l:4 " item-responsive responsive="screen">
+  <n-grid class="login-wrap h-full" cols="s:1 m:3 l:4 " item-responsive responsive="screen">
     <n-gi span=" l:3 m:2 s:1" class="login-left">
       <div class="px-10 sm:px-30">
         <div class="sm:text-4xl xl:text-5xl font-bold text-light-50 leading-tight mb-6">欢迎光临</div>

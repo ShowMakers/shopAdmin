@@ -31,20 +31,21 @@
     </div>
     <n-drawer v-model:show="active" style="width:30%" :placement="'right'">
       <n-drawer-content title="修改密码">
-        <n-form ref="passwordRef" :model="passwordForm" :rules="passwordRules" label-placement="left"  :label-width="80">
-        <n-form-item path="old" label="旧密码">
-          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.oldpassword" placeholder="请输入密码" />
-        </n-form-item>
-         <n-form-item path="new" label="新密码">
-          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.password" placeholder="请输入密码" />
-        </n-form-item>
-        <n-form-item path="confirm" label="确认密码">
-          <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.repassword" placeholder="请输入密码" />
-        </n-form-item>
-        <n-form-item >
-          <n-button type="primary" @click="handleSubmit">提交</n-button>
-        </n-form-item>
-      </n-form>
+        <n-form ref="passwordRef" :model="passwordForm" :rules="passwordRules" label-placement="left" :label-width="80">
+          <n-form-item path="old" label="旧密码">
+            <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.oldpassword"
+                     placeholder="请输入密码" />
+          </n-form-item>
+          <n-form-item path="new" label="新密码">
+            <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.password" placeholder="请输入密码" />
+          </n-form-item>
+          <n-form-item path="confirm" label="确认密码">
+            <n-input type="password" showPasswordOn="click" v-model:value="passwordForm.repassword" placeholder="请输入密码" />
+          </n-form-item>
+          <n-form-item>
+            <n-button type="primary" @click="handleSubmit">提交</n-button>
+          </n-form-item>
+        </n-form>
       </n-drawer-content>
     </n-drawer>
   </div>
@@ -92,11 +93,11 @@ function handleSelect(key) {
   switch (key) {
     case 'logout':
       $dialog.confirm({
-        type:"info",
-        title:"警告",
+        type: "info",
+        title: "警告",
         content: '确认退出？',
         confirm() {
-              userStore.LogOut();
+          userStore.LogOut();
           $message.success('已退出登录');
           location.href = '/login';
         },
@@ -121,8 +122,8 @@ const toggleDark = () => {
 const passwordRef = ref(null);
 const passwordForm = reactive({
   oldpassword: undefined,
-  password:undefined,
-  repassword:undefined
+  password: undefined,
+  repassword: undefined
 });
 const passwordRules = {
   oldpassword: { required: true, trigger: "blur", message: "旧密码不能为空" },

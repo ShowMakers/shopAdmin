@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next();
     } else {
-      window.$message.error("请先登录");
+      // window.$message.error("请先登录");
       // 否则全部重定向到登录页
       next({path:"/login"}); 
       NProgress.done();
