@@ -14,6 +14,7 @@ router.beforeEach((to, from, next) => {
   const token = getToken();
   const userStore = useUserStore();
   const title = (to.meta.title ? to.meta.title:"")+"-后台管理系统";
+  // const title = to.meta.title ? to.meta.title : "";
   document.title = title;
   if (!token && to.path!="/login") {
      // 没有token
