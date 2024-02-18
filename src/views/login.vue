@@ -1,17 +1,17 @@
 <template>
-  <n-grid class="login-wrap" cols="s:1 m:3 l:4 " item-responsive responsive="screen">
+  <n-grid class="h-full login-wrap" cols="s:1 m:3 l:4 " item-responsive responsive="screen">
     <n-gi span=" l:3 m:2 s:1" class="login-left">
       <div class="px-10 sm:px-30">
-        <div class="sm:text-4xl xl:text-5xl font-bold text-light-50 leading-tight mb-6">欢迎光临</div>
-        <div class="sm:text-sm xl:text-md text-gray-200 font-normal">山东菏泽曹县牛逼666山东菏泽曹县牛逼666山东菏泽曹县牛逼666</div>
+        <div class="mb-6 font-bold leading-tight sm:text-4xl xl:text-5xl text-light-50">欢迎光临</div>
+        <div class="font-normal text-gray-200 sm:text-sm xl:text-md">山东菏泽曹县牛逼666山东菏泽曹县牛逼666山东菏泽曹县牛逼666</div>
       </div>
     </n-gi>
     <n-gi span=" l:1 m:1 s:1" class="login-right">
-      <h2 class="font-bold text-3xl mt-6">欢迎回来</h2>
-      <div class="flex items-center justify-center space-x-2 mt-5 mb-8">
-        <span class="h-px w-16 bg-gray-200"></span>
-        <span class="text-gray-300 font-normal">账号密码登录</span>
-        <span class="h-px w-16 bg-gray-200"></span>
+      <h2 class="mt-6 text-3xl font-bold">欢迎回来</h2>
+      <div class="flex items-center justify-center mt-5 mb-8 space-x-2">
+        <span class="w-16 h-px bg-gray-200"></span>
+        <span class="font-normal text-gray-300">账号密码登录</span>
+        <span class="w-16 h-px bg-gray-200"></span>
       </div>
       <n-form ref="loginRef" :model="loginForm" :rules="loginRules" :show-label="false">
         <n-form-item path="username">
@@ -24,7 +24,7 @@
           </n-input>
         </n-form-item>
         <n-form-item path="password">
-          <n-input type="password" showPasswordOn="click" v-model:value="loginForm.password" placeholder="请输入密码">
+          <n-input type="password" showPass wordOn="click" v-model:value="loginForm.password" placeholder="请输入密码">
             <template #prefix>
               <n-icon size="18" color="#808695">
                 <LockClosedOutline />

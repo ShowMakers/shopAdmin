@@ -1,6 +1,6 @@
 <template>
   <n-config-provider :theme="appStore.isDark ? darkTheme : lightTheme" :locale="zhCN" :date-locale="dateZhCN"
-                     :theme-override="{ common: { primaryColor: '#409EFE' } }">
+                     :theme-override="{ common: { primaryColor: '#409EFE' } }" class="h-full">
     <n-loading-bar-provider>
       <n-dialog-provider>
         <n-notification-provider>

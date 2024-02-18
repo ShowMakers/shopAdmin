@@ -23,14 +23,33 @@
 import { useAppStore } from '@/store';
 import { isExternal } from '@/utils/is';
 import { renderIcon } from '@/utils/icon';
+import { RouterLink } from 'vue-router';
 const router = useRouter()
 
 const appStore = useAppStore()
 
 const menuOptions = [
   {
-    label: "且听风吟",
-    key: "hear-the-wind-sing",
+    // label: () => h(
+    //   // RouterLink,
+    //   {
+    //     to: {
+    //       name: "/Dashboard",
+    //     }
+    //   },
+    //   { default: () => "工作台" }
+    // ),
+    // label: "工作台",
+    label: () => h(
+      RouterLink,
+      {
+        to: {
+          path: "./Dashboard.vue"
+        }
+      },
+      { default: () => "工作台" }
+    ),
+    key: "go-Dashboard",
     icon: renderIcon('mdi:home', { size: 18 })
   },
   {

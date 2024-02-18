@@ -1,6 +1,3 @@
-<template>
-</template>
-
 <script setup>
 import { useMessage, useDialog, useNotification, useLoadingBar } from 'naive-ui';
 import { setupDialog } from '@/utils/naiveTools'

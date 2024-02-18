@@ -11,7 +11,7 @@ import viteCompression from 'vite-plugin-compression';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import { VueUseComponentsResolver } from 'unplugin-vue-components/resolvers';
-
+import Inspect from 'vite-plugin-inspect';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd());
@@ -51,6 +51,7 @@ export default defineConfig(({ mode, command }) => {
         compiler: 'vue3',
         autoInstall: true,
       }),
+      Inspect({})
     ],
     server: {
       host: "0.0.0.0",
