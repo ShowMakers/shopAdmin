@@ -1,24 +1,20 @@
 <template>
-  <div>
-    <n-button id="giao" type="info" @click="handleClick">
-      {{ content  }}
-    </n-button>
+  <div class="overflow-hidden">
+    {{ generateRandomText(500) }}
   </div>
 </template>
 
 <script setup>
-const content = ref("讲解")
-const handleClick = () => {
-  $message.success(
-    'This is a success message',
-      {duration:10000}
-    );
-  content.value="取消讲解";
-  setTimeout(() => {
-    content.value="讲解";
-  }, 15000);
-  console.log('clicked')
-}
+import { ref } from 'vue';
+
+const generateRandomText = (length) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomText = '';
+  for (let i = 0; i < length; i++) {
+    randomText += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return randomText;
+};
 </script>
 
 <style>

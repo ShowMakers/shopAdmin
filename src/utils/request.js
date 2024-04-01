@@ -53,57 +53,31 @@ service.interceptors.request.use(
   }
 );
 
+const statusMessageMap = {
+  400: '请求错误(400)',
+  401: '未授权，请重新登录(401)',
+  403: '拒绝访问(403)',
+  404: '请求出错(404)',
+  408: '请求超时(408)',
+  500: '服务器错误(500)',
+  501: '服务未实现(501)',
+  502: '网络错误(502)',
+  503: '服务不可用(503)',
+  504: '网络超时(504)',
+  505: 'HTTP版本不受支持(505)',
+};
+
 const showStatus = (status) => {
-  let message = ''
-  // 这一坨代码可以使用策略模式进行优化
-  switch (status) {
-      case 400:
-          message = '请求错误(400)'
-          break
-      case 401:
-          message = '未授权，请重新登录(401)'
-          break
-      case 403:
-          message = '拒绝访问(403)'
-          break
-      case 404:
-          message = '请求出错(404)'
-          break
-      case 408:
-          message = '请求超时(408)'
-          break
-      case 500:
-          message = '服务器错误(500)'
-          break
-      case 501:
-          message = '服务未实现(501)'
-          break
-      case 502:
-          message = '网络错误(502)'
-          break
-      case 503:
-          message = '服务不可用(503)'
-          break
-      case 504:
-          message = '网络超时(504)'
-          break
-      case 505:
-          message = 'HTTP版本不受支持(505)'
-          break
-      default:
-          message = `连接出错(${status})!`
-  }
-  return `${message}，请检查网络或联系管理员！`
+  let message = statusMessageMap[status] || `连接出错(${status})!`;
+  return `${message}，请检查网络或联系管理员！`;
 }
 
 // 响应拦截器
 service.interceptors.response.use(
   (res) => {
-     // 未设置状态码则默认成功状态
     const status = res.status || 200;
     let msg = '';
     if (status < 200 || status >= 300) {
-        // 处理http错误，抛到业务代码
         msg = showStatus(status)
         if (typeof res.data === 'string') {
           res.data = { msg }
@@ -111,68 +85,88 @@ service.interceptors.response.use(
           res.data.msg = msg
         }
     }
-   
-    // 二进制数据则直接返回
-    if (
-      res.request.responseType === "blob" ||
-      res.request.responseType === "arraybuffer"
-    ) {
+
+    if (res.request.responseType === "blob" || res.request.responseType === "arraybuffer") {
       return res.data;
     }
+
     if (status === 401) {
-      window.$dialog.warning({
-        title: "系统提示",
-          content: "登录状态已过期请重新登录",
-          positiveText: "重新登录",
-          negativeText: "退出",
-          onPositiveClick: () => {
-            window.localStorage.clear();
-          },
-          onNegativeClick: () => {
-            window.localStorage.clear();
-          }
-      })
+      handle401Error();
       return Promise.reject("无效的会话，或者会话已过期，请重新登录。");
     } else if (status === 500) {
       Message.error(msg);
       return Promise.reject(new Error(msg));
     } else if (status !== 200) {
-      window.$notification[error]({
-        content: msg,
-        duration: 2500,
-        keepAliveOnHover: true
-      });
+      handleNon200Error(msg);
       return Promise.reject("error");
     } else {
       return Promise.resolve(res.data);
     }
   },
   (err) => {
-    console.log(err,"err");
-    const userStore = useUserStore();
-    if(err.response?.data.msg=='非法token，请先登录！'){
-      //退出登录
-      userStore.LogOut();
-      location.reload();
-    } else{
-      console.log("鬼");
-      let { message,response } = err;
-      if (message == "Network Error") {
-        message = "后端接口连接异常";
-      } else if (message.includes("timeout")) {
-        message = "系统接口请求超时";
-      }
-      // else if (message.includes("Request failed with status code")) {
-      //   message = "系统接口" + message.substr(message.length - 3) + "异常";
-      // }
-      window.$message.error(
-        response.data.msg || "未知错误，请联系管理员"
-      )
-    }
+    handleNetworkError(err);
     return Promise.reject(err);
   }
 );
 
+/**
+ * handle401Error 处理401错误
+ * 当服务器返回401 Unauthorized（未授权）响应时调用此函数
+ * 通常表示用户的登录会话已过期或无效
+ * 此函数将显示一个警告对话框，提示用户重新登录，并在用户点击“重新登录”或“退出”时清除本地存储
+ */
+function handle401Error() {
+  window.$dialog.warning({
+    title: "系统提示",
+    content: "登录状态已过期请重新登录",
+    positiveText: "重新登录",
+    negativeText: "退出",
+    onPositiveClick: () => {
+      window.localStorage.clear();
+    },
+    onNegativeClick: () => {
+      window.localStorage.clear();
+    }
+  });
+}
+
+/**
+ * handleNon200Error 处理非200状态码的错误
+ * 当服务器返回非200的状态码时调用此函数
+ * 此函数将显示一个错误通知，内容为服务器返回的错误消息
+ * @param {string} msg - 服务器返回的错误消息
+ */
+function handleNon200Error(msg) {
+  window.$notification[error]({
+    content: msg,
+    duration: 2500,
+    keepAliveOnHover: true
+  });
+}
+
+/**
+ * handleNetworkError 处理网络错误
+ * 当请求失败（例如，网络断开或请求超时）时调用此函数
+ * 此函数将根据错误的类型显示不同的错误消息
+ * @param {Error} err - 请求失败时抛出的错误对象
+ */
+function handleNetworkError(err) {
+  const userStore = useUserStore();
+  if(err.response?.data.msg=='非法token，请先登录！'){
+    userStore.LogOut();
+    location.reload();
+  } else{
+    let { message,response } = err;
+    if (message == "Network Error") {
+      message = "后端接口连接异常";
+    } else if (message.includes("timeout")) {
+      message = "系统接口请求超时";
+    }
+    window.$message.error(
+      response.data.msg || "未知错误，请联系管理员"
+    )
+  }
+}
 // 通用下载方法
 // export function download(url, params, filename) {
 //   downloadLoadingInstance = ElLoading.service({

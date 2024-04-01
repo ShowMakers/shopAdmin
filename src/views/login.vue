@@ -76,8 +76,6 @@ const onSubmit = () => {
         await store.Login(loginForm);
         $message.success("登录成功");
         router.push('/');
-      } catch (error) {
-        throw error;
       } finally {
         setLoading(false);
       }
