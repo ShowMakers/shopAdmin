@@ -2,15 +2,15 @@ import { defineStore } from 'pinia';
 import { login, logout } from '@/api/login';
 import { getUserInfo,changePassword } from '@/api/manager';
 import { getToken, setToken, removeToken } from '@/utils/auth';
+
+// 定义用户存储
 export const useUserStore = defineStore('user',{
-  state: () => {
-    return {
-      token:getToken(),
-      roles: [],
-      permissions: [],
-      userInfo:{}
-    }
-  },
+  state: () => ({
+    token: getToken(),
+    roles: [],
+    permissions: [],
+    userInfo: {}
+  }),
   actions: {
     // 登录
     async Login(userInfo) {
@@ -18,9 +18,7 @@ export const useUserStore = defineStore('user',{
         const { data } = await login(userInfo);
         setToken(data.token);
         this.token = data.token;
-        // this.GetInfo();
       } catch (error) {
-        removeToken();
         throw error;
       }
     },
@@ -33,7 +31,7 @@ export const useUserStore = defineStore('user',{
         throw error;
       }
     },
-    //修改密码
+    // 修改密码
     async UpdatePassword(info) {
       try {
         await changePassword(info);
@@ -43,13 +41,15 @@ export const useUserStore = defineStore('user',{
     },
     // 退出系统
     async LogOut() {
-      removeToken();
-      await logout();
       this.userInfo = {};
-      this.roles=[];
-      this.permissions=[];
+      this.roles = [];
+      this.permissions = [];
+      removeToken();
+      try {
+        await logout();
+      } catch (error) {
+        throw error;
+      }
     },
   }
 });
-
-// export default useUserStore;
