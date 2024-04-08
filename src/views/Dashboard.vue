@@ -8,6 +8,7 @@
 import { ref } from 'vue';
 
 const generateRandomText = (length) => {
+  // 生成随机字符串
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let randomText = '';
   for (let i = 0; i < length; i++) {

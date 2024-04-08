@@ -67,21 +67,32 @@ const loginRules = {
 const loginRef = ref(null);
 
 //登录按钮
-const onSubmit = () => {
-  loginRef.value?.validate(async (errors) => {
-    if (loading.value) return;
-    if (!errors) {
-      setLoading(true);
-      try {
-        await store.Login(loginForm);
-        $message.success("登录成功");
-        router.push('/');
-      } finally {
-        setLoading(false);
-      }
+/**
+ * onSubmit 提交登录表单
+ * 当用户点击提交按钮时，此函数将被调用
+ * 此函数首先验证表单数据，如果验证通过，则尝试登录
+ * 如果登录成功，将显示一条成功消息，并跳转到主页
+ * 无论登录是否成功，都将停止显示加载指示器
+ */
+const onSubmit = async () => {
+  // 如果正在加载，直接返回
+  if (loading.value) return;
+
+  // 验证表单数据
+  const errors = await loginRef.value?.validate();
+  
+  // 如果没有错误，尝试登录
+  if (!errors) {
+    setLoading(true);
+    try {
+      await store.Login(loginForm);
+      $message.success("登录成功");
+      router.push('/');
+    } finally {
+      setLoading(false);
     }
-  });
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>

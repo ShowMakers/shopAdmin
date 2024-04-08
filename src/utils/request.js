@@ -18,14 +18,13 @@ const service = axios.create({
 const pending = [];
 const CancelToken = axios.CancelToken;
 
+/**
+ * removePending 移除待处理的请求
+ * @param {Object} config - 请求配置对象
+ */
 const removePending = config => {
-  for (const p in pending) {
-    if (pending[p].u === config.url + '&' + config.method) {
-      // 当当前请求在数组中存在时执行函数体
-      pending[p].f(); // 执行取消操作
-      pending.splice(p, 1); // 把这条记录从数组中移除
-    }
-  }
+  const id = `${config.url}&${config.method}`;
+  pending = pending.filter(p => p.u !== id);
 };
 
 // request拦截器
@@ -33,12 +32,10 @@ service.interceptors.request.use(
   (config) => {
     // 在一个ajax发送前执行一下取消操作
     removePending(config); 
+    const id = `${config.url}&${config.method}`;
     config.cancelToken = new CancelToken(c => {
       // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
-      pending.push({
-        u: config.url + '&' + config.method,
-        f: c
-      });
+      pending.push({ u: id, f: c });
     });
     // 是否需要设置 token
     const isToken = (config.headers || {}).isToken === false;
